@@ -10,7 +10,7 @@ This is a navigation indicator mixin development project used to develop a an of
 The default `grunt` command will run a development server with watch so you can navigate to `localhost:9000` and play with the code.
 
 ### Control Variables
-The control variables, located in [sass/index.scss], allow you to adjust the mixin parameters.
+The control variables, located in [sass/index.scss](https://github.com/localnerve/navigation-indicator/blob/master/sass/index.scss), allow you to adjust the mixin parameters.
 
 #### Mixin Parameters
 * $size - The width and height of the navigation indicator area.
