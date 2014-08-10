@@ -1,0 +1,53 @@
+//
+// A resuable, resizable off-canvas navigation menu indicator
+//
+// Inspired by http://codepen.io/stidges/pen/lvHjr
+//
+// Adjustments:
+// 1. Resizable
+// 2. Reusable
+// ** work in progress
+//
+@import "navigation-indicator";
+
+// (Remove this if defined by toolkit)
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+// This is just for example
+body {
+  background-color: #F5F3F4;
+}
+
+//
+// Control variables
+//
+
+// The overall container size
+$container-size: 40px;
+// The size the indicator area takes up inside the container
+$indicator-size: $container-size * 0.75;
+// color of the lines and circle animation
+$indicator-color: #fff;
+// Hamburger lines are this percentage of the indicator area
+$line-width-perc: 0.833333;
+
+//
+// test styles
+//
+
+// The container of the navigation indicator area
+.nav-button {
+  position: relative;
+
+  width: $container-size;
+  height: $container-size;
+
+  border-radius: 100%;
+  background: #1450D2;
+
+  @include navigation-indicator($indicator-size, $indicator-color, $line-width-perc);
+}

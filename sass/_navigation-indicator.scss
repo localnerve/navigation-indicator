@@ -1,0 +1,164 @@
+//
+// The navigation indicator mixin
+//
+// Requires
+//   CSS3 browser or polyfill
+//   box-sizing: border-box
+//
+@import "compass"; // for math
+
+//
+// @mixin navigation-indicator
+//
+// Relies on box-sizing: border-box
+//
+// @params
+//   $size - The size of the navigation indicator area
+//   $color - The color of the lines and circle animation (default: #fff)
+//   $line-width-perc - The percentage of the navigation indicator area filled with lines (default: 83.33%)
+//
+@mixin navigation-indicator($size, $color: #fff, $line-width-perc: 0.833333) {
+
+  $hamburger-line-width: $size * $line-width-perc;
+  
+  $hamburger-line-height: $size * 0.1267;
+
+  // its really the vertical operating box area divided by 5
+  // the other two outside vertical areas should be ~36%?
+  //$hamburger-line-height: ($size * 0.64) / 5;  
+  
+  $arrow-angle: 45; // degrees
+
+  $arrow-angle-rad: $arrow-angle * (pi()/180); // radians
+
+  .nav-indicator-area {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -($size / 2);
+    margin-top: -($size / 2);
+    width: $size;
+    height: $size;
+    cursor: pointer;
+    
+    // The beginning of the circle expanding animation    
+    &:before {
+      position: absolute;
+      content: "";
+      
+      width: 0px;
+      height: 0px;
+      left: $size / 2;
+      top: $size / 2;
+
+      opacity: 1;
+      border-radius: 100%;
+      background: $color;
+    }
+    
+    // The Hamburger line
+    .icon-line {
+      position: absolute;
+
+      left: $hamburger-line-width * 0.1;
+      height: $hamburger-line-height;
+      width: $hamburger-line-width;
+      
+      border-radius: $hamburger-line-height;
+      background: $color;
+      transition: all 300ms ease-out 100ms;
+      
+      &:first-child {      
+        top: $size / 3 / 2;
+
+        transform-origin: center ($size / 3);
+      }
+      
+      &:nth-child(2) {
+        top: 50%;
+        margin-top: -( round($hamburger-line-height / 2) ); // should round?
+
+        transform-origin: center center;
+      }
+       
+      &:last-child {      
+        bottom: $size / 3 / 2;
+
+        transform-origin: center ($size / -5);
+      }
+    }
+    
+    &.anim.in,
+    &.anim.out {
+      // The circle expanding animation target
+      // Expands circle from indicator center to indicator perimeter
+      &:before {      
+        width: $size * 2;
+        height: $size * 2;
+        left: -($size / 2);
+        top: -($size / 2);
+
+        opacity: 0;
+        transition: all 400ms cubic-bezier(0,.7,.5,1);
+      } 
+    }
+    
+    &.in {
+      
+      // Arrow transformation target
+      .icon-line {
+        border-radius: 0;
+        
+        &:first-child { 
+          // 70% of hamburger line width
+          width: $hamburger-line-width * 0.7;
+          // 85% of half (of a third) of the arrow size area
+          top: ($size / 3 / 2) * 0.85;
+          // arrow size area minus 88% of the hamburger line width
+          left: $size - ($hamburger-line-width * 0.88);
+
+          transform: rotate(#{(180+$arrow-angle)}deg);
+        }
+        &:nth-child(2) {
+          // 88% of the hamburger line width
+          width: $hamburger-line-width * 0.88;
+          // same as angled line, but less the distance of half the adjacent side
+          left: ($size - ($hamburger-line-width * 0.88)) - (($hamburger-line-height * cos($arrow-angle-rad)) / 2);
+
+          // flip
+          transform: rotate(180deg);
+        }
+        &:last-child {
+          // 70% of hamburger line width
+          width: $hamburger-line-width * 0.7;
+          // 85% of half (of a third) of the arrow size area
+          bottom: ($size / 3 / 2) * 0.85;
+          // arrow size area minus 88% of the hamburger line width
+          left: $size - ($hamburger-line-width * 0.88);
+
+          transform: rotate(#{(180-$arrow-angle)}deg);
+        }
+      }
+    }
+    
+    &.out {
+      .icon-line {
+        &:first-child { 
+          transform: rotate(360deg);
+        }
+        &:nth-child(2) {
+          transform: rotate(360deg);
+        }
+        &:last-child {
+          transform: rotate(360deg);
+        }
+      }
+    }
+    
+    &.no-trans {
+      .icon-line {
+        transition: none;
+      }
+    }
+  }
+}
