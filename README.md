@@ -1,4 +1,6 @@
 # Navigation Indicator
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/localnerve/navigation-indicator.svg)](https://greenkeeper.io/)
 > A reusable, resizable navigation indicator
 
 ## Overview
